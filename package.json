@@ -1,0 +1,24 @@
+{
+  "name": "practice-writing-unittests-jessica-h",
+  "version": "1.0.0",
+  "description": "**Date:** June 29, 2026\r **Course:** 2605 Part-Time Software Development\r **School:** LaunchCode\r **Module:** Test-Driven Development\r **Lesson:** Lesson 1\r **Assignment:** REQUIRED - Practice: Test-Driven Development - 1 - Writing Unit Tests",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jheusler/practice-writing-unitTests-Jessica-H.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/jheusler/practice-writing-unitTests-Jessica-H/issues"
+  },
+  "homepage": "https://github.com/jheusler/practice-writing-unitTests-Jessica-H#readme",
+  "devDependencies": {
+    "jest": "^30.4.2"
+  }
+}
