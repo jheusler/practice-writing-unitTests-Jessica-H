@@ -1,74 +1,59 @@
-var cart = require('../cart');
-var addItem = cart.addItem;
-var removeItem = cart.removeItem;
-var getTotalItems = cart.getTotalItems;
+const cart = require('../cart');
 
-// addItem tests
+describe('addItem', function() {
+  test('should add an item with a valid quantity', function() {
+    var myCart = {};
+    cart.addItem(myCart, 'apple', 3);
+    expect(myCart['apple']).toBe(3);
+  });
 
-// positive: adds item with valid quantity
-test('addItem adds item with valid quantity', function() {
-  var myCart = {};
-  addItem(myCart, 'apple', 3);
-  expect(myCart['apple']).toBe(3);
+  test('should not add an item with a negative quantity', function() {
+    var myCart = {};
+    cart.addItem(myCart, 'banana', -1);
+    expect('banana' in myCart).toBe(false);
+  });
+
+  test('should not add an item with a quantity of zero', function() {
+    var myCart = {};
+    cart.addItem(myCart, 'orange', 0);
+    expect('orange' in myCart).toBe(false);
+  });
 });
 
-// negative: does not add item with zero quantity
-test('addItem ignores item with zero quantity', function() {
-  var myCart = {};
-  addItem(myCart, 'banana', 0);
-  expect('banana' in myCart).toBe(false);
+describe('removeItem', function() {
+  test('should remove an existing item from the cart', function() {
+    var myCart = { apple: 2 };
+    cart.removeItem(myCart, 'apple');
+    expect('apple' in myCart).toBe(false);
+  });
+
+  test('should not throw when removing an item not in the cart', function() {
+    var myCart = {};
+    expect(function() {
+      cart.removeItem(myCart, 'banana');
+    }).not.toThrow();
+  });
+
+  test('should leave the cart empty after removing the last item', function() {
+    var myCart = { mango: 1 };
+    cart.removeItem(myCart, 'mango');
+    expect(Object.keys(myCart).length).toBe(0);
+  });
 });
 
-// edge: does not add item with negative quantity
-test('addItem ignores item with negative quantity', function() {
-  var myCart = {};
-  addItem(myCart, 'orange', -5);
-  expect('orange' in myCart).toBe(false);
-});
+describe('getTotalItems', function() {
+  test('should return the correct total for multiple items', function() {
+    var myCart = { apple: 3, banana: 2 };
+    expect(cart.getTotalItems(myCart)).toBe(5);
+  });
 
-// removeItem tests
+  test('should return zero for an empty cart', function() {
+    var myCart = {};
+    expect(cart.getTotalItems(myCart)).toBe(0);
+  });
 
-// positive: removes an existing item
-test('removeItem removes an existing item', function() {
-  var myCart = { apple: 2 };
-  removeItem(myCart, 'apple');
-  expect('apple' in myCart).toBe(false);
-});
-
-// negative: removing a non-existent item does not throw
-test('removeItem handles non-existent item without error', function() {
-  var myCart = {};
-  expect(function() {
-    removeItem(myCart, 'banana');
-  }).not.toThrow();
-});
-
-// edge: cart is empty after removing the only item
-test('removeItem leaves cart empty after removing the only item', function() {
-  var myCart = { mango: 1 };
-  removeItem(myCart, 'mango');
-  expect(Object.keys(myCart).length).toBe(0);
-});
-
-// getTotalItems tests
-
-// positive: returns correct total for multiple items
-test('getTotalItems returns correct total for multiple items', function() {
-  var myCart = { apple: 3, banana: 2 };
-  var total = getTotalItems(myCart);
-  expect(total).toBe(5);
-});
-
-// negative: returns zero for empty cart
-test('getTotalItems returns 0 for empty cart', function() {
-  var myCart = {};
-  var total = getTotalItems(myCart);
-  expect(total).toBe(0);
-});
-
-// edge: returns correct total for single item with large quantity
-test('getTotalItems returns correct total for single item with large quantity', function() {
-  var myCart = { rice: 100 };
-  var total = getTotalItems(myCart);
-  expect(total).toBe(100);
+  test('should return the correct total with large quantities', function() {
+    var myCart = { rice: 100 };
+    expect(cart.getTotalItems(myCart)).toBe(100);
+  });
 });
